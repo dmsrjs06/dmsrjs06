@@ -3,9 +3,9 @@
 #include <string.h>
 #include <ctype.h>
 
-#define MAX_LINE_LEN   256
-#define MAX_PATH_LEN   256
-#define MAX_TOKENS     10
+#define MAX_LINE_LEN 256
+#define MAX_PATH_LEN 256
+#define MAX_TOKENS 10
 
 typedef struct Node {
     char data;
