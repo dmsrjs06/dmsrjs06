@@ -1,18 +1,3 @@
-/*
- * Binary tree input in parenthesis notation + iterative preorder/inorder/postorder traversal
- *
- * Input format (parenthesis notation):
- *   Tree  := Data [ '(' [Tree] ',' [Tree] ')' ]
- *   e.g.) A(B(D,E),C(,F))   -> A has left child B, right child C;
- *                              C has no left child, right child F
- *   - Inside '(' ... ')' there must be a comma separating "left,right";
- *     a missing child is left empty.
- *   - Whitespace is ignored. Data is an alphanumeric string (max 31 chars).
- *
- * No recursive functions are used (parser, printing, traversals and memory
- * release all use loops + an explicit stack).
- * Compile: gcc -Wall -o bintree bintree.c
- */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,10 +12,10 @@ typedef struct Node {
     struct Node *right;
 } Node;
 
-/* ---------------- Stack (dynamic array) ---------------- */
+/* 스택 (동적 배열), aux: 파서에서는 방향 표시, 출력에서는 깊이 */
 typedef struct {
     Node **items;
-    int *aux;          /* auxiliary info (parser: side, printer: depth) */
+    int *aux;
     int top, cap;
 } Stack;
 
@@ -40,10 +25,11 @@ static void stack_init(Stack *s) {
     s->aux = malloc(sizeof(int) * s->cap);
     if (!s->items || !s->aux) { fprintf(stderr, "Out of memory\n"); exit(1); }
 }
+
 static void stack_free(Stack *s) { free(s->items); free(s->aux); }
 static int  stack_empty(const Stack *s) { return s->top == 0; }
 static void push(Stack *s, Node *n, int aux) {
-    if (s->top == s->cap) {
+    if (s->top == s->cap) { /* 가득 차면 용량 2배 확장 */
         s->cap *= 2;
         s->items = realloc(s->items, sizeof(Node *) * s->cap);
         s->aux = realloc(s->aux, sizeof(int) * s->cap);
@@ -51,10 +37,9 @@ static void push(Stack *s, Node *n, int aux) {
     }
     s->items[s->top] = n; s->aux[s->top] = aux; s->top++;
 }
+
 static Node *pop(Stack *s) { s->top--; return s->items[s->top]; }
 static Node *peek(const Stack *s) { return s->items[s->top - 1]; }
-
-/* ---------------- Node creation / release ---------------- */
 static Node *new_node(const char *data) {
     Node *n = malloc(sizeof(Node));
     if (!n) { fprintf(stderr, "Out of memory\n"); exit(1); }
@@ -63,6 +48,7 @@ static Node *new_node(const char *data) {
     return n;
 }
 
+/* 스택을 이용해 모든 노드를 반복적으로 해제 */
 static void free_tree(Node *root) {
     Stack s; stack_init(&s);
     if (root) push(&s, root, 0);
@@ -74,27 +60,22 @@ static void free_tree(Node *root) {
     }
     stack_free(&s);
 }
-
-/* ---------------- Parenthesis-notation parser (iterative) ----------------
- * Stack holds parent nodes not yet closed.
- * aux = 0 (filling left child) / 1 (filling right child) /
- *      -1 (node just created, '(' not yet seen)
- * Returns the root on success; NULL with errmsg set on failure.            */
+/* 괄호 표기법 파서 (반복적). 스택에는 아직 안 닫힌 부모 노드를 보관 
+    aux: 0=왼쪽 자식 작성 중, 1=오른쪽 자식 작성 중, -1=방금 만든 노드('(' 미확인)
+    성공 시 루트 반환, 실패 시 errmsg를 채우고 NULL 반환 */
 static Node *parse_tree(const char *str, char *errmsg, size_t errsz) {
     Stack st; stack_init(&st);
     Node *root = NULL;
-    int can_data = 1;      /* may a node's data appear at this position? */
-    int can_open = 0;      /* may '(' appear (a node was just created)?  */
+    int can_data = 1; /* 현재 위치에 노드 데이터가 올 수 있는가 */
+    int can_open = 0; /* '(' 가 올 수 있는가 (노드 생성 직후) */
     size_t i = 0, len = strlen(str);
-
+/* 오류 시 메시지 저장 + 자원 정리 후 NULL 반환 */
 #define FAIL(...) do { snprintf(errmsg, errsz, __VA_ARGS__); \
                        free_tree(root); stack_free(&st); return NULL; } while (0)
-
     while (i < len) {
         unsigned char c = (unsigned char)str[i];
-        if (isspace(c)) { i++; continue; }
-
-        if (isalnum(c)) {
+        if (isspace(c)) { i++; continue; } /* 공백 무시 */
+        if (isalnum(c)) { /* 노드 데이터 */
             char buf[MAX_DATA]; int k = 0;
             size_t start = i;
             if (!can_data) FAIL("Position %zu: data '%c' must be preceded by a separator ('(' or ',').", start + 1, c);
@@ -104,46 +85,42 @@ static Node *parse_tree(const char *str, char *errmsg, size_t errsz) {
             }
             buf[k] = '\0';
             Node *n = new_node(buf);
-            if (stack_empty(&st)) {
+            if (stack_empty(&st)) { /* 스택이 비었으면 루트 */
                 if (root) { free(n); FAIL("Position %zu: more than one root.", start + 1); }
                 root = n;
-            } else {
+            } else { /* 현재 부모의 왼쪽/오른쪽 슬롯에 연결 */
                 Node *p = peek(&st);
                 if (st.aux[st.top - 1] == 0) p->left = n; else p->right = n;
             }
-            push(&st, n, -1);          /* mark: node just created, '(' unconfirmed */
+            push(&st, n, -1); /* 표식: 방금 만든 노드 */
             can_data = 0; can_open = 1;
             continue;
         }
-
         if (c == '(') {
             if (!can_open || stack_empty(&st) || st.aux[st.top - 1] != -1)
                 FAIL("Position %zu: '(' may only follow a node's data.", i + 1);
-            st.aux[st.top - 1] = 0;    /* confirmed as parent, start left child */
+            st.aux[st.top - 1] = 0; /* 부모로 확정, 왼쪽 자식 작성 시작 */
             can_data = 1; can_open = 0;
             i++; continue;
         }
-
-        /* before ',' or ')', drop the "just created" marker */
+        /* ',' 또는 ')' 처리 전에 "방금 만든 노드" 표식 제거 (리프 노드) */
         if (!stack_empty(&st) && st.aux[st.top - 1] == -1) { pop(&st); can_open = 0; }
-
         if (c == ',') {
             if (stack_empty(&st)) FAIL("Position %zu: ',' outside of parentheses.", i + 1);
             if (st.aux[st.top - 1] != 0) FAIL("Position %zu: a node has at most 2 children (extra comma).", i + 1);
-            st.aux[st.top - 1] = 1;
+            st.aux[st.top - 1] = 1; /* 이제 오른쪽 자식 작성 */
             can_data = 1;
             i++; continue;
         }
         if (c == ')') {
             if (stack_empty(&st)) FAIL("Position %zu: unmatched ')'.", i + 1);
             if (st.aux[st.top - 1] != 1) FAIL("Position %zu: parentheses must contain a comma in the form 'left,right'.", i + 1);
-            pop(&st);
+            pop(&st); /* 부모 노드 완성 */
             can_data = 0; can_open = 0;
             i++; continue;
         }
         FAIL("Position %zu: invalid character '%c'.", i + 1, c);
     }
-
     if (!stack_empty(&st) && st.aux[st.top - 1] == -1) pop(&st);
     if (!stack_empty(&st)) FAIL("There is an unclosed '('.");
     if (!root) FAIL("Empty input. There is no tree.");
@@ -152,9 +129,7 @@ static Node *parse_tree(const char *str, char *errmsg, size_t errsz) {
     return root;
 }
 
-/* ---------------- Tree structure printer (iterative, right child on top) ----
- * Uses reverse inorder (right -> root -> left) to print the tree rotated
- * 90 degrees counter-clockwise.                                              */
+/* 트리 구조 출력 (반복적): 역중위(오른쪽->루트->왼쪽)로 90도 눕힌 모양, aux에 깊이 저장 */
 static void print_tree(Node *root) {
     Stack s; stack_init(&s);
     Node *cur = root; int depth = 0;
@@ -162,43 +137,40 @@ static void print_tree(Node *root) {
         while (cur) { push(&s, cur, depth); cur = cur->right; depth++; }
         depth = s.aux[s.top - 1];
         cur = pop(&s);
-        for (int i = 0; i < depth; i++) printf("    ");
+        for (int i = 0; i < depth; i++) printf("    "); /* 깊이만큼 들여쓰기 */
         printf("%s\n", cur->data);
         cur = cur->left; depth++;
     }
     stack_free(&s);
 }
 
-/* Preorder: Root -> Left -> Right */
-// Succcess
+/* 전위 순회: Root -> Left -> Right */
 void preorder(Node *tree) {
     Stack s; stack_init(&s);
     if (tree) push(&s, tree, 0);
     while (!stack_empty(&s)) {
         Node *n = pop(&s);
-        printf("%s ", n->data);                 /* visit */
-        if (n->right) push(&s, n->right, 0);    /* push right first so left pops first */
+        printf("%s ", n->data); /* 방문 */
+        if (n->right) push(&s, n->right, 0); /* 오른쪽을 먼저 넣어야 왼쪽이 먼저 나옴 */
         if (n->left)  push(&s, n->left, 0);
     }
     printf("\n");
     stack_free(&s);
 }
-
-/* Inorder: Left -> Root -> Right */
+/* 중위 순회: Left -> Root -> Right */
 void inorder(Node *tree) {
     Stack s; stack_init(&s);
     Node *cur = tree;
     while (cur || !stack_empty(&s)) {
-        while (cur) { push(&s, cur, 0); cur = cur->left; }   /* go as far left as possible */
+        while (cur) { push(&s, cur, 0); cur = cur->left; }   /* 가능한 만큼 왼쪽으로 */
         cur = pop(&s);
-        printf("%s ", cur->data);                            /* visit */
-        cur = cur->right;
+        printf("%s ", cur->data); /* 방문 */
+        cur = cur->right; /* 오른쪽 서브트리로 이동 */
     }
     printf("\n");
     stack_free(&s);
 }
-
-/* Postorder: Left -> Right -> Root (tracks the last visited node) */
+/* 후위 순회: Left -> Right -> Root (마지막으로 방문한 노드를 추적) */
 void postorder(Node *tree) {
     Stack s; stack_init(&s);
     Node *cur = tree, *last = NULL;
@@ -206,42 +178,35 @@ void postorder(Node *tree) {
         while (cur) { push(&s, cur, 0); cur = cur->left; }
         Node *top = peek(&s);
         if (top->right && top->right != last) {
-            cur = top->right;                   /* right subtree still pending */
+            cur = top->right; /* 오른쪽 서브트리가 아직 남음 */
         } else {
-            printf("%s ", top->data);           /* visit */
+            printf("%s ", top->data);   /* 방문 */
             last = pop(&s);
         }
     }
     printf("\n");
     stack_free(&s);
 }
-
-/* ---------------- main ---------------- */
 int main(void) {
     char line[MAX_LINE], err[256];
-
     printf("Enter a binary tree in parenthesis notation.\n");
     printf("e.g.) A(B(D,E),C(,F))\n> ");
     if (!fgets(line, sizeof(line), stdin)) {
         fprintf(stderr, "Error: no input.\n");
         return 1;
     }
-
-    Node *root = parse_tree(line, err, sizeof(err));
+    Node *root = parse_tree(line, err, sizeof(err)); /* 괄호 표현 -> 연결 자료구조 */
     if (!root) {
         printf("Error: invalid parenthesis expression. %s\n", err);
         return 1;
     }
-
     line[strcspn(line, "\r\n")] = '\0';
     printf("\n[Input tree] %s\n", line);
     printf("\n[Tree structure] (right child on top, left child below)\n");
     print_tree(root);
-
     printf("\nPreorder  : "); preorder(root);
     printf("Inorder   : ");   inorder(root);
     printf("Postorder : ");   postorder(root);
-
     free_tree(root);
     return 0;
 }
