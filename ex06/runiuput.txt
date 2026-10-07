@@ -1,0 +1,106 @@
+=== 1. Generated 100 integers (duplicates allowed, insertion order) ===
+ 343  568   20  655  591  697  279  119  210  422
+ 947  348  485  180  526  104  789  921  366  219
+ 843  622  870  922  129  514  495  286  641  871
+ 703  984  438  723  638  720  109  607  839  320
+ 719  785  668  204  656  884  308  134  494  364
+  43   26  986  913  949  805  116  133   90  447
+ 694  483  430  132  896  758  542    5  364  380
+ 325   83  855  683  978  510  256  976  644  441
+ 339  377  467   14  980  105  509   95  238  290
+ 232  623  773  662  445  669  419  987  364  474
+
+=== 2. Construction ===
+Distinct values stored      : 98
+Duplicate values skipped    : 2
+Array  construction comparisons : 4853
+BST    construction comparisons : 583
+AVL    construction comparisons : 540
+
+=== 3. Structure ===
+Array length : 98
+BST height   : 13
+AVL height   : 8
+
+=== 4. Search keys (50) ===
+ 366  379  557  220  752  224  421    7  199  755
+ 448  538  132  606  242  111  711  751  207  640
+  40  439  262  504  792  707  172  901  383  226
+ 374  749  605  621  659  356  845   79   53  734
+ 835  192  962  967  798  203   77  508  955  975
+
+=== 5. Per-key search results ===
+Key      Result   Seq.Cmp    BST.Cmp    AVL.Cmp   
+366      Found    19         5          6         
+379      NotFnd   98         7          5         
+557      NotFnd   98         6          7         
+220      NotFnd   98         9          7         
+752      NotFnd   98         10         7         
+224      NotFnd   98         9          7         
+421      NotFnd   98         7          6         
+7        NotFnd   98         4          7         
+199      NotFnd   98         7          6         
+755      NotFnd   98         10         7         
+448      NotFnd   98         8          7         
+538      NotFnd   98         6          7         
+132      Found    64         10         6         
+606      NotFnd   98         6          7         
+242      NotFnd   98         8          6         
+111      NotFnd   98         7          7         
+711      NotFnd   98         10         7         
+751      NotFnd   98         10         7         
+207      NotFnd   98         7          6         
+640      NotFnd   98         7          6         
+40       NotFnd   98         7          6         
+439      NotFnd   98         7          6         
+262      NotFnd   98         7          6         
+504      NotFnd   98         9          7         
+792      NotFnd   98         10         7         
+707      NotFnd   98         10         7         
+172      NotFnd   98         8          6         
+901      NotFnd   98         13         8         
+383      NotFnd   98         7          6         
+226      NotFnd   98         9          7         
+374      NotFnd   98         7          6         
+749      NotFnd   98         10         7         
+605      NotFnd   98         6          7         
+621      NotFnd   98         6          7         
+659      NotFnd   98         7          7         
+356      NotFnd   98         6          6         
+845      NotFnd   98         10         8         
+79       NotFnd   98         8          6         
+53       NotFnd   98         8          6         
+734      NotFnd   98         10         7         
+835      NotFnd   98         10         7         
+192      NotFnd   98         7          6         
+962      NotFnd   98         9          8         
+967      NotFnd   98         9          8         
+798      NotFnd   98         10         7         
+203      NotFnd   98         7          6         
+77       NotFnd   98         8          6         
+508      NotFnd   98         9          7         
+955      NotFnd   98         9          8         
+975      NotFnd   98         9          8         
+
+=== 6. Summary ===
+Number of searches : 50
+Sequential - found : 2, not found: 48
+BST        - found : 2, not found: 48
+AVL        - found : 2, not found: 48
+
+Sequential Search
+  Total comparisons   : 4787
+  Average comparisons : 95.74
+
+BST Search
+  Total comparisons   : 405
+  Average comparisons : 8.10
+
+AVL Search
+  Total comparisons   : 335
+  Average comparisons : 6.70
+
+=== 7. Combined cost (construction + 50 searches) ===
+Array (construction + sequential search) : 9640
+BST   (construction + BST search)         : 988
+AVL   (construction + AVL search)         : 875
