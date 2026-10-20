@@ -1,12 +1,3 @@
-/*
- * 과제 09: 모든 정점 쌍의 최단경로 탐색
- *  - 정점 10개, 간선 20개, 가중치 1~100 무방향 단순 연결 그래프를 랜덤 생성
- *  - Floyd-Warshall + next 행렬로 경로 복원
- *  - Dijkstra(정점별 반복)로 거리 교차 검증, 경로 합 재계산으로 경로 검증
- *
- * 컴파일: gcc -O2 -o apsp apsp.c
- * 실행  : ./apsp [seed]
- */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
