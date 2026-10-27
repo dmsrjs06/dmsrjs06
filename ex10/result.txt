@@ -1,0 +1,144 @@
+Data Count : 10000
+
+Random Data
+Number of Trials : 100
+(All results verified sorted & permutation-intact: YES)
+
+Selection Sort
+Total Comparisons   : 4999500000
+Average Comparisons : 49995000.00
+Average Movements   : 29971.08
+
+Bubble Sort
+Total Comparisons   : 4999500000
+Average Comparisons : 49995000.00
+Average Movements   : 75066398.64
+
+Bubble Sort (Early Termination)
+Total Comparisons   : 4998467502
+Average Comparisons : 49984675.02
+Average Movements   : 75066398.64
+
+Insertion Sort
+Total Comparisons   : 2503212319
+Average Comparisons : 25032123.19
+Average Movements   : 25042130.88
+
+Insertion Sort (>=) [reference]
+Total Comparisons   : 2503217224
+Average Comparisons : 25032172.24
+Average Movements   : 25042179.93
+
+------------------------------------
+
+Sorted Data
+
+Selection Sort
+Comparisons : 49995000
+Movements   : 0
+Sorted check: OK
+
+Bubble Sort
+Comparisons : 49995000
+Movements   : 0
+Sorted check: OK
+
+Bubble Sort (Early Termination)
+Comparisons : 9999
+Movements   : 0
+Sorted check: OK
+
+Insertion Sort
+Comparisons : 9999
+Movements   : 19998
+Sorted check: OK
+
+Insertion Sort (>=)
+Comparisons : 10052
+Movements   : 20051
+Sorted check: OK
+
+------------------------------------
+
+Reverse-Sorted Data
+
+Selection Sort
+Comparisons : 49995000
+Movements   : 15075
+Sorted check: OK
+
+Bubble Sort
+Comparisons : 49995000
+Movements   : 149984841
+Sorted check: OK
+
+Bubble Sort (Early Termination)
+Comparisons : 49995000
+Movements   : 149984841
+Sorted check: OK
+
+Insertion Sort
+Comparisons : 49995000
+Movements   : 50014945
+Sorted check: OK
+
+Insertion Sort (>=)
+Comparisons : 49995000
+Movements   : 50014998
+Sorted check: OK
+
+------------------------------------
+
+Partially Sorted Data
+
+Selection Sort
+Comparisons : 49995000
+Movements   : 603
+Sorted check: OK
+
+Bubble Sort
+Comparisons : 49995000
+Movements   : 3953925
+Sorted check: OK
+
+Bubble Sort (Early Termination)
+Comparisons : 49411260
+Movements   : 3953925
+Sorted check: OK
+
+Insertion Sort
+Comparisons : 1327974
+Movements   : 1337973
+Sorted check: OK
+
+Insertion Sort (>=)
+Comparisons : 1328027
+Movements   : 1338026
+Sorted check: OK
+
+------------------------------------
+
+Stability Verification
+
+[Example data] original: (527,100) (527,200) (125,300) (892,400) 
+  Selection Sort   -> (125,300) (527,200) (527,100) (892,400) 
+  Bubble Sort      -> (125,300) (527,100) (527,200) (892,400) 
+  Insertion (>)    -> (125,300) (527,100) (527,200) (892,400) 
+  Insertion (>=)   -> (125,300) (527,200) (527,100) (892,400) 
+
+[Duplicate-heavy data] 2000 items, key1 in [0,99]
+  Selection Sort   : sorted=OK, order violations=628 -> UNSTABLE
+  Bubble Sort      : sorted=OK, order violations=0 -> STABLE
+  Insertion (>)    : sorted=OK, order violations=0 -> STABLE
+  Insertion (>=)   : sorted=OK, order violations=1900 -> UNSTABLE
+
+[Random 10000 data] adjacent equal-key pairs after sorting: 53
+  Selection Sort   : order violations=14 -> UNSTABLE
+  Bubble Sort      : order violations=0 -> STABLE
+  Insertion (>)    : order violations=0 -> STABLE
+  Insertion (>=)   : order violations=53 -> UNSTABLE
+
+Selection Sort       : Unstable
+Bubble Sort          : Stable
+Insertion Sort (>)   : Stable
+Insertion Sort (>=)  : Unstable
