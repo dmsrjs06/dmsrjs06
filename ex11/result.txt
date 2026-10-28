@@ -1,0 +1,67 @@
+=== Main experiment (one random data set per size) ===
+
+Data Size : 1000
+
+Insertion Sort        : 245918 comparisons
+Shell Sort (Original) : 14551 comparisons
+Shell Sort (Knuth)    : 14033 comparisons
+
+Data Size : 2000
+
+Insertion Sort        : 981631 comparisons
+Shell Sort (Original) : 35873 comparisons
+Shell Sort (Knuth)    : 34927 comparisons
+
+Data Size : 4000
+
+Insertion Sort        : 3962984 comparisons
+Shell Sort (Original) : 85994 comparisons
+Shell Sort (Knuth)    : 80259 comparisons
+
+Data Size : 8000
+
+Insertion Sort        : 16043252 comparisons
+Shell Sort (Original) : 210817 comparisons
+Shell Sort (Knuth)    : 178428 comparisons
+
+Data Size : 16000
+
+Insertion Sort        : 63934653 comparisons
+Shell Sort (Original) : 485527 comparisons
+Shell Sort (Knuth)    : 410987 comparisons
+
+Data Size : 20000
+
+Insertion Sort        : 100542953 comparisons
+Shell Sort (Original) : 623741 comparisons
+Shell Sort (Knuth)    : 541623 comparisons
+
+All results verified (ascending + same elements): YES
+
+=== Supplementary: average of 20 trials per size ===
+
+n             Insertion  Shell(Original)     Shell(Knuth)
+1000             251304            14991            13852
+2000            1000203            36056            33232
+4000            4002058            85983            78227
+8000           15977665           204041           179053
+16000          64099077           486167           416658
+20000          99982504           613986           544862
+
+=== Growth ratio when n doubles (average) ===
+ 1000 ->  2000 : Insertion x3.98, Original x2.41, Knuth x2.40
+ 2000 ->  4000 : Insertion x4.00, Original x2.38, Knuth x2.35
+ 4000 ->  8000 : Insertion x3.99, Original x2.37, Knuth x2.29
+ 8000 -> 16000 : Insertion x4.01, Original x2.38, Knuth x2.33
+
+=== Ratio vs Insertion (average) ===
+n=1000   Original: 6.0%  Knuth: 5.5%
+n=2000   Original: 3.6%  Knuth: 3.3%
+n=4000   Original: 2.1%  Knuth: 2.0%
+n=8000   Original: 1.3%  Knuth: 1.1%
+n=16000  Original: 0.8%  Knuth: 0.7%
+n=20000  Original: 0.6%  Knuth: 0.5%
+
+=== Gap sequences for n=20000 ===
+Original: 10000 5000 2500 1250 625 312 156 78 39 19 9 4 2 1 
+Knuth   : 9841 3280 1093 364 121 40 13 4 1
