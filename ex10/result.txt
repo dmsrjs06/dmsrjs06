@@ -141,4 +141,8 @@ Stability Verification
 Selection Sort       : Unstable
 Bubble Sort          : Stable
 Insertion Sort (>)   : Stable
+<<<<<<< HEAD
 Insertion Sort (>=)  : Unstable
+=======
+Insertion Sort (>=)  : Unstable
+>>>>>>> 5c8c084329635ab3497deaf0f3e98ed1dcb17655
