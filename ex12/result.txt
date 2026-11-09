@@ -1,0 +1,79 @@
+=== Main experiment (one random data set per size) ===
+
+Data Size : 1000
+
+Quick Sort (First)    : 11187 comparisons
+Quick Sort (Random)   : 12216 comparisons
+Quick Sort (Median-3) : 11515 comparisons
+
+Data Size : 2000
+
+Quick Sort (First)    : 26314 comparisons
+Quick Sort (Random)   : 27521 comparisons
+Quick Sort (Median-3) : 25738 comparisons
+
+Data Size : 4000
+
+Quick Sort (First)    : 63893 comparisons
+Quick Sort (Random)   : 61802 comparisons
+Quick Sort (Median-3) : 57078 comparisons
+
+Data Size : 8000
+
+Quick Sort (First)    : 126909 comparisons
+Quick Sort (Random)   : 131366 comparisons
+Quick Sort (Median-3) : 121854 comparisons
+
+Data Size : 16000
+
+Quick Sort (First)    : 279100 comparisons
+Quick Sort (Random)   : 298522 comparisons
+Quick Sort (Median-3) : 261417 comparisons
+
+Data Size : 20000
+
+Quick Sort (First)    : 370033 comparisons
+Quick Sort (Random)   : 350244 comparisons
+Quick Sort (Median-3) : 329071 comparisons
+
+All results verified (ascending + same elements): YES
+
+=== Supplementary: average of 20 trials ===
+
+n             First       Random     Median-3
+1000          11979        11975        11879
+2000          26996        26791        26398
+4000          60037        59327        57062
+8000         132477       127762       124114
+16000        279833       286693       265085
+20000        363414       362554       340350
+
+Ratio to n*log2(n) (average):
+n=1000   First 1.202  Random 1.202  Median-3 1.192
+n=2000   First 1.231  Random 1.222  Median-3 1.204
+n=4000   First 1.254  Random 1.240  Median-3 1.192
+n=8000   First 1.277  Random 1.232  Median-3 1.197
+n=16000  First 1.252  Random 1.283  Median-3 1.186
+n=20000  First 1.272  Random 1.269  Median-3 1.191
+
+Growth ratio when n doubles (average):
+ 1000 ->  2000 : First x2.25  Random x2.24  Median-3 x2.22
+ 2000 ->  4000 : First x2.22  Random x2.21  Median-3 x2.16
+ 4000 ->  8000 : First x2.21  Random x2.15  Median-3 x2.18
+ 8000 -> 16000 : First x2.11  Random x2.24  Median-3 x2.14
+Median-3 vs First: 0.8% 2.2% 5.0% 6.3% 5.3% 6.3% (reduction)
+
+=== Supplementary: already sorted input, n=5000 ===
+Quick Sort (First)    : 12507498 comparisons (sorted: OK)
+Quick Sort (Random)   : 89287 comparisons (sorted: OK)
+Quick Sort (Median-3) : 63630 comparisons (sorted: OK)
+
+=== Bonus: recursive vs iterative (average of 300 runs) ===
+
+Data Size : 10000
+Pivot     : Median-of-Three
+
+Recursive Quick Sort : 0.7609 ms
+Iterative Quick Sort : 0.7029 ms
+
+Comparisons recursive=154419, iterative=154419, identical results: YES
