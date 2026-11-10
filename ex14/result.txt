@@ -1,0 +1,106 @@
+Data Size : 1000
+
+Algorithm       Comparisons    Time(ms)    Memory(Bytes)
+--------------------------------------------------------
+Heap Sort        16866          0.0398      296
+Merge Sort       8706           0.0391      5288
+Quick (First)    11889          0.0152      2376
+Quick (Random)   13491          0.0663      2472
+Quick (Median3)  11635          0.0127      1800
+
+Data Size : 2000
+
+Algorithm       Comparisons    Time(ms)    Memory(Bytes)
+--------------------------------------------------------
+Heap Sort        37683          0.1115      296
+Merge Sort       19407          0.1077      9384
+Quick (First)    26278          0.0690      2568
+Quick (Random)   25893          0.1425      2664
+Quick (Median3)  26251          0.0675      1896
+
+Data Size : 4000
+
+Algorithm       Comparisons    Time(ms)    Memory(Bytes)
+--------------------------------------------------------
+Heap Sort        83399          0.2932      296
+Merge Sort       42786          0.2665      17480
+Quick (First)    55302          0.2367      2568
+Quick (Random)   62416          0.3361      2760
+Quick (Median3)  58193          0.2277      2280
+
+Data Size : 8000
+
+Algorithm       Comparisons    Time(ms)    Memory(Bytes)
+--------------------------------------------------------
+Heap Sort        182836         0.4975      296
+Merge Sort       93664          0.4967      33576
+Quick (First)    126797         0.4322      3048
+Quick (Random)   127277         0.6536      2760
+Quick (Median3)  121692         0.4504      2280
+
+Data Size : 16000
+
+Algorithm       Comparisons    Time(ms)    Memory(Bytes)
+--------------------------------------------------------
+Heap Sort        397924         1.2099      296
+Merge Sort       203206         1.1913      65672
+Quick (First)    282756         0.8756      3240
+Quick (Random)   288066         1.2981      3144
+Quick (Median3)  261902         0.9734      2568
+
+Data Size : 20000
+
+Algorithm       Comparisons    Time(ms)    Memory(Bytes)
+--------------------------------------------------------
+Heap Sort        510655         1.4153      296
+Merge Sort       260767         1.5580      81768
+Quick (First)    387904         1.2624      3816
+Quick (Random)   344661         1.6566      3624
+Quick (Median3)  334408         1.0738      2568
+
+All results verified (ascending + same elements): YES
+
+=== Memory breakdown (bytes): heap(temp array) + measured stack, max recursion depth ===
+n=1000   | Heap heap=0 stack=296 depth=2 | Merge heap=4000 stack=1288 depth=11 | QFirst heap=0 stack=2376 depth=23 | QRand heap=0 stack=2472 depth=24 | QMed3 heap=0 stack=1800 depth=17
+n=2000   | Heap heap=0 stack=296 depth=2 | Merge heap=8000 stack=1384 depth=12 | QFirst heap=0 stack=2568 depth=25 | QRand heap=0 stack=2664 depth=26 | QMed3 heap=0 stack=1896 depth=18
+n=4000   | Heap heap=0 stack=296 depth=2 | Merge heap=16000 stack=1480 depth=13 | QFirst heap=0 stack=2568 depth=25 | QRand heap=0 stack=2760 depth=27 | QMed3 heap=0 stack=2280 depth=22
+n=8000   | Heap heap=0 stack=296 depth=2 | Merge heap=32000 stack=1576 depth=14 | QFirst heap=0 stack=3048 depth=30 | QRand heap=0 stack=2760 depth=27 | QMed3 heap=0 stack=2280 depth=22
+n=16000  | Heap heap=0 stack=296 depth=2 | Merge heap=64000 stack=1672 depth=15 | QFirst heap=0 stack=3240 depth=32 | QRand heap=0 stack=3144 depth=31 | QMed3 heap=0 stack=2568 depth=25
+n=20000  | Heap heap=0 stack=296 depth=2 | Merge heap=80000 stack=1768 depth=16 | QFirst heap=0 stack=3816 depth=38 | QRand heap=0 stack=3624 depth=36 | QMed3 heap=0 stack=2568 depth=25
+
+=== Average comparisons over 20 data sets ===
+n              Heap        Merge       QFirst      QRandom     QMedian3  n*log2(n)
+1000          16844         8706        11979        11975        11879       9966
+2000          37693        19416        26733        27285        26205      21932
+4000          83385        42830        59382        59121        56525      47863
+8000         182841        93637       131707       129358       123141     103726
+16000        397667       203307       283392       280774       264767     223453
+20000        510734       260881       360134       361871       339870     285754
+
+Comparisons / (n*log2 n), average:
+n=1000   Heap 1.690 Merge 0.874 QFirst 1.202 QRand 1.202 QMed3 1.192
+n=2000   Heap 1.719 Merge 0.885 QFirst 1.219 QRand 1.244 QMed3 1.195
+n=4000   Heap 1.742 Merge 0.895 QFirst 1.241 QRand 1.235 QMed3 1.181
+n=8000   Heap 1.763 Merge 0.903 QFirst 1.270 QRand 1.247 QMed3 1.187
+n=16000  Heap 1.780 Merge 0.910 QFirst 1.268 QRand 1.257 QMed3 1.185
+n=20000  Heap 1.787 Merge 0.913 QFirst 1.260 QRand 1.266 QMed3 1.189
+
+Growth ratio when n doubles (time):
+ 1000 ->  2000 : Heap x2.80 Merge x2.76 QFirst x4.53 QRand x2.15 QMed3 x5.29
+ 2000 ->  4000 : Heap x2.63 Merge x2.47 QFirst x3.43 QRand x2.36 QMed3 x3.37
+ 4000 ->  8000 : Heap x1.70 Merge x1.86 QFirst x1.83 QRand x1.94 QMed3 x1.98
+ 8000 -> 16000 : Heap x2.43 Merge x2.40 QFirst x2.03 QRand x1.99 QMed3 x2.16
+Time ratio vs QMed3 (Heap, Merge) per size:
+n=1000   Heap 3.12 Merge 3.07
+n=2000   Heap 1.65 Merge 1.60
+n=4000   Heap 1.29 Merge 1.17
+n=8000   Heap 1.10 Merge 1.10
+n=16000  Heap 1.24 Merge 1.22
+n=20000  Heap 1.32 Merge 1.45
+
+=== Supplementary: sorted input, n=5000 ===
+Heap Sort        comps=112126     heap=0      stack=297      depth=2 sorted=OK
+Merge Sort       comps=32004      heap=20000  stack=1577     depth=14 sorted=OK
+Quick (First)    comps=12507498   heap=0      stack=480169   depth=5000 sorted=OK
+Quick (Random)   comps=77179      heap=0      stack=2857     depth=28 sorted=OK
+Quick (Median3)  comps=63630      heap=0      stack=1417     depth=13 sorted=OK
