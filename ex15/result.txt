@@ -1,0 +1,113 @@
+=== Main experiment (assignment rule: insert/delete values are new random numbers) ===
+
+Data Size : 1000
+Operations: 200
+
+                  Quick Sort      AVL Tree
+------------------------------------------------
+Total Time        0.1230    ms    0.1152    ms
+Comparisons       126503          10785
+Data Movements    53822           1096
+Memory Usage      6101      Bytes  36255     Bytes
+
+Final Data Count  1096            1096
+(inserts=96, deletes done=0, deletes missed=104)
+
+Data Size : 2000
+Operations: 400
+
+                  Quick Sort      AVL Tree
+------------------------------------------------
+Total Time        0.3597    ms    0.2585    ms
+Comparisons       453128          23934
+Data Movements    238076          2197
+Memory Usage      10905     Bytes  71535     Bytes
+
+Final Data Count  2201            2201
+(inserts=202, deletes done=1, deletes missed=197)
+
+Data Size : 4000
+Operations: 800
+
+                  Quick Sort      AVL Tree
+------------------------------------------------
+Total Time        1.4863    ms    0.6435    ms
+Comparisons       1728637         52687
+Data Movements    840231          4380
+Memory Usage      19729     Bytes  141439    Bytes
+
+Final Data Count  4383            4383
+(inserts=385, deletes done=2, deletes missed=413)
+
+Data Size : 8000
+Operations: 1600
+
+                  Quick Sort      AVL Tree
+------------------------------------------------
+Total Time        4.8657    ms    1.4902    ms
+Comparisons       6873265         115898
+Data Movements    3399720         8767
+Memory Usage      37505     Bytes  281503    Bytes
+
+Final Data Count  8779            8779
+(inserts=788, deletes done=9, deletes missed=803)
+
+Data Size : 16000
+Operations: 3200
+
+                  Quick Sort      AVL Tree
+------------------------------------------------
+Total Time        22.8736   ms    3.6331    ms
+Comparisons       27342347        249846
+Data Movements    13713183        17452
+Memory Usage      72957     Bytes  557935    Bytes
+
+Final Data Count  17546           17546
+(inserts=1580, deletes done=34, deletes missed=1586)
+
+Data Size : 20000
+Operations: 4000
+
+                  Quick Sort      AVL Tree
+------------------------------------------------
+Total Time        30.6859   ms    5.2175    ms
+Comparisons       41746420        321131
+Data Movements    21628542        21786
+Memory Usage      90653     Bytes  695855    Bytes
+
+Final Data Count  21922           21922
+(inserts=1968, deletes done=46, deletes missed=1986)
+
+All checks passed (sorted, AVL valid, array == AVL in-order, same counts): YES
+
+=== Phase breakdown of the main experiment: sorting phase / insert-delete phase ===
+n      | Quick: cmp sort / ops, mov sort / ops | AVL: cmp sort / ops, mov sort / ops
+1000   | cmp 11515 / 114988, mov 7950 / 45872 | cmp 8710 / 2075, mov 1000 / 96
+2000   | cmp 26365 / 426763, mov 17067 / 221009 | cmp 19436 / 4498, mov 1995 / 202
+4000   | cmp 56776 / 1671861, mov 37197 / 803034 | cmp 42862 / 9825, mov 3997 / 383
+8000   | cmp 122009 / 6751256, mov 80430 / 3319290 | cmp 94510 / 21388, mov 7976 / 791
+16000  | cmp 267502 / 27074845, mov 171834 / 13541349 | cmp 204203 / 45643, mov 15866 / 1586
+20000  | cmp 345174 / 41401246, mov 218367 / 21410175 | cmp 262541 / 58590, mov 19816 / 1970
+
+=== Supplementary: delete values are taken from existing data (deletions really happen) ===
+
+n=1000 ops=200 (inserts=104, deletes done=89, missed=7)
+  Quick+Array: time 0.0878 ms, cmp 110390, mov 106820, mem 5797 B, final 1015
+  AVL Tree   : time 0.1203 ms, cmp 10634, mov 1196, mem 33743 B, final 1015
+n=2000 ops=400 (inserts=202, deletes done=182, missed=16)
+  Quick+Array: time 0.3765 ms, cmp 417199, mov 414356, mem 10213 B, final 2020
+  AVL Tree   : time 0.2592 ms, cmp 23714, mov 2339, mem 66031 B, final 2020
+n=4000 ops=800 (inserts=403, deletes done=379, missed=18)
+  Quick+Array: time 1.3554 ms, cmp 1644757, mov 1626567, mem 18301 B, final 4024
+  AVL Tree   : time 0.6576 ms, cmp 52224, mov 4761, mem 130079 B, final 4024
+n=8000 ops=1600 (inserts=816, deletes done=754, missed=30)
+  Quick+Array: time 4.8631 ms, cmp 6628735, mov 6297871, mem 34673 B, final 8062
+  AVL Tree   : time 1.5137 ms, cmp 114956, mov 9456, mem 258927 B, final 8062
+n=16000 ops=3200 (inserts=1561, deletes done=1556, missed=83)
+  Quick+Array: time 20.4578 ms, cmp 25737925, mov 25192354, mem 66845 B, final 16005
+  AVL Tree   : time 3.9619 ms, cmp 248051, mov 18811, mem 509631 B, final 16005
+n=20000 ops=4000 (inserts=2065, deletes done=1835, missed=100)
+  Quick+Array: time 30.8623 ms, cmp 40651232, mov 39281026, mem 83909 B, final 20230
+  AVL Tree   : time 4.5920 ms, cmp 318752, mov 23420, mem 643135 B, final 20230
+
+sizeof(Node) = 32 bytes, sizeof(int) = 4 bytes
